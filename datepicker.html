@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<script src="jquery-3.1.1.min.js"></script>
+<script src="datepicker.js"></script>
+<body>
+<script type="text/javascript">
+	/**
+	 * 定义全局变量缓存用户数据
+	 */
+ 	var today 	  = new Date();
+ 	var now_month = today.getMonth() + 1;
+ 	var now_year  = today.getFullYear();
+ 	var pick_days = [];
+</script>
+<style>
+	*{font-style:none; font-size: 100%;}
+	#page{ /*background-color: white;*/ width:60%; height:700px; margin-left: 20%;}
+	#year-div{ /*background-color: yellow;*/ width:100%; height: 60px; }
+	#week-div{ /* background-color: pink;*/  width:100%; height: 50px; }
+	#date-div{ /*background-color: pink;*/ width:100%; height: 500px; }
+	#month-div{ /*background-color: red;*/ width:100%; height: 50px; }
+	#boot-div{ /*background-color: #c0c0c0;*/ width:100%; height: 50px; }
+	/*year pick style*/
+	#year-picker{float:left;}
+	.year-picker{text-align: 10px }
+	.year-picker li{float:left; margin-left:100px; list-style-type: none;}
+	#year-picker-div{float: left; margin-left: 10%}
+	.year-li { width:70px; border-radius: 20px; text-align: center; font-size: 80%; } 
+	/*month pick style*/
+	#month-picker{float:left;}
+	.month-picker{text-align: 10px }
+	.month-picker li{float:left; margin-left:40px; list-style-type: none;}
+	#month-picker-div{float: left; margin-left: 50px; text-align: center; font-size: 80%;}
+	.month-li button{width:30px; border-radius: 15px; height:30px;}
+	.month-li-onclick {}
+	.month-li-noclick {}
+	/*week navi*/
+	#week-picker{float:left;}
+	.week-picker{text-align: 10px }
+	.week-picker li{float:left; margin-left:60px; list-style-type: none;}
+	#week-picker-div{float: left; margin-left: 10% ; width:70%; }
+	.week-li-onclick {background-color: red;}
+	.week-li-noclick {background-color: green;}
+	/*date pick style*/
+	#date-picker{float:left;}
+	.date-picker{text-align: 10px }
+	.date-picker li{float:left; margin-left:60px; list-style-type: none;}
+	#date-picker-div{float: left; margin-left: 10% ; width:70%; }
+	.date-li-onclick {background-color: pink;}
+	.workday-li{ color:black; width: 40px;}
+	.weekdend-li{color:red; width: 40px;}
+	.date-list{height:60px; }
+	/*button{background-color: white }*/
+	.workday-li-another-month{color:#828282; width: 40px;}
+	/*submit-button*/
+	.submit-button{width:12%; height:80%; margin-left: 40%; border-style: none;}
+	.submit-button button{width:100%; height:100%; background-color: #C54D11; border:1px solid;border-radius:25px; font-size:120% ;margin-top:5px; color:white;}
+</style>
+	<!--
+		年份选择
+	-->
+	<div id="page">
+		<div id="year-div">
+			<div id="year-picker-div">
+				<ul  class="year-picker">
+					<li>年份选择</li>
+					<li class="year-li" ><button class="year-li" onclick="change_year(1)" id="y1">2017</button></li>
+					<li class="year-li" ><button class="year-li"  onclick="change_year(2)" id="y2">2018</button></li>
+					<li class="year-li" ><button class="year-li"  onclick="change_year(3)" id="y3">2019</button></li>
+				</ul>
+			</div>
+		</div>
+		<hr>
+		<!--
+			星期导航条
+		-->
+		<div id="week-div">
+			<div id="week-picker-div">
+				<ul  class="week-picker">
+					<li class="date-li"><div class="workday-li">一</div></li>
+					<li class="date-li"><div class="workday-li">二</div></li>
+					<li class="date-li"><div class="workday-li">三</div></li>
+					<li class="date-li"><div class="workday-li">四</div></li>
+					<li class="date-li"><div class="workday-li">五</div></li>
+					<li class="date-li"><div class="weekdend-li">六</div></li>
+					<li class="date-li"><div class="weekdend-li">日</div></li>
+				</ul>
+			</div>
+		</div>
+		<hr>
+		<!--
+			日期选择
+		-->
+		<div id="date-div">
+			<div id="date1" class="date-list">
+				<div id="date-picker-div">
+					<ul  class="date-picker">
+						<li class="date-li"><button id="b1" class="workday-li-another-month" onclick="add_date('b1')" is_month="-1" is_pick="0">26</button></li>
+						<li class="date-li"><button class="workday-li-another-month" id="b2" onclick="add_date('b2')" is_month="-1" is_pick="0">27</button></li>
+						<li class="date-li" onclick="add_date('b3')"><button class="workday-li-another-month" id="b3" is_month="-1" is_pick="0">28</button></li>
+						<li class="date-li" onclick="add_date('b4')"><button class="workday-li-another-month" id="b4" is_month="-1" is_pick="0">29</button></li>
+						<li class="date-li" onclick="add_date('b5')"><button class="workday-li-another-month" id="b5" is_month="-1" is_pick="0">30</button></li>
+						<li class="date-li" onclick="add_date('b6')"><button class="workday-li-another-month" id="b6" is_month="-1" is_pick="0">31</button></li>
+						<li class="date-li" onclick="add_date('b7')"><button class="weekdend-li" id="b7" is_month="0" is_pick="0">1</button></li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<div id="date2" class="date-list">
+				<div id="date-picker-div">
+					<ul  class="date-picker">
+						<li class="date-li"><button class="workday-li" id="b8" onclick="add_date('b8')" is_month="0" is_pick="0"> 2</button></li>
+						<li class="date-li"><button class="workday-li" id="b9" onclick="add_date('b9')" is_month="0" is_pick="0">3 </button></li>
+						<li class="date-li" ><button class="workday-li" id="b10" onclick="add_date('b10')" is_month="0" is_pick="0">4</button></li>
+						<li class="date-li"><button class="workday-li" id="b11" onclick="add_date('b11')" is_month="0" is_pick="0">5</button></li>
+						<li class="date-li"><button class="workday-li" id="b12" onclick="add_date('b12')" is_month="0" is_pick="0">6</button></li>
+						<li class="date-li"><button class="weekdend-li" id="b13" onclick="add_date('b13')" is_month="0" is_pick="0">7</button></li>
+						<li class="date-li"><button class="weekdend-li" id="b14" onclick="add_date('b14')" is_month="0" is_pick="0">8</button></li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<div id="date3" class="date-list">
+				<div id="date-picker-div">
+					<ul  class="date-picker">
+						<li class="date-li"><button class="workday-li" id="b15" onclick="add_date('b15')" is_month="0" is_pick="0">9</button></li>
+						<li class="date-li"><button class="workday-li" id="b16" onclick="add_date('b16')" is_month="0" is_pick="0">10</button></li>
+						<li class="date-li"><button class="workday-li" id="b17" onclick="add_date('b17')" is_month="0" is_pick="0">11</button></li>
+						<li class="date-li"><button class="workday-li" id="b18" onclick="add_date('b18')" is_month="0" is_pick="0">12</button></li>
+						<li class="date-li"><button class="workday-li" id="b19" onclick="add_date('b19')" is_month="0" is_pick="0">13</button></li>
+						<li class="date-li"><button class="weekdend-li" id="b20" onclick="add_date('b20')" is_month="0" is_pick="0">14</button></li>
+						<li class="date-li"><button class="weekdend-li" id="b21" onclick="add_date('b21')" is_month="0" is_pick="0">15</button></li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<div id="date4" class="date-list">
+				<div id="date-picker-div">
+					<ul  class="date-picker">
+						<li class="date-li"><button class="workday-li" id="b22" onclick="add_date('b22')" is_month="0" is_pick="0">16</button></li>
+						<li class="date-li"><button class="workday-li" id="b23" onclick="add_date('b23')" is_month="0" is_pick="0">17</button></li>
+						<li class="date-li"><button class="workday-li" id="b24" onclick="add_date('b24')" is_month="0" is_pick="0">18</button></li>
+						<li class="date-li"><button class="workday-li" id="b25" onclick="add_date('b25')" is_month="0" is_pick="0">19</button></li>
+						<li class="date-li"><button class="workday-li" id="b26" onclick="add_date('b26')" is_month="0" is_pick="0">20</button></li>
+						<li class="date-li"><button class="weekdend-li" id="b27" onclick="add_date('b27')" is_month="0" is_pick="0">21</button></li>
+						<li class="date-li"><button class="weekdend-li" id="b28" onclick="add_date('b28')" is_month="0" is_pick="0">22</button></li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<div id="date5" class="date-list">
+				<div id="date-picker-div">
+					<ul  class="date-picker">
+						<li class="date-li"><button class="workday-li" id="b29" onclick="add_date('b29')" is_month="0" is_pick="0">23</button></li>
+						<li class="date-li"><button class="workday-li" id="b30" onclick="add_date('b30')" is_month="0" is_pick="0">24</button></li>
+						<li class="date-li"><button class="workday-li" id="b31" onclick="add_date('b31')" is_month="0" is_pick="0">25</button></li>
+						<li class="date-li"><button class="workday-li" id="b32" onclick="add_date('b32')" is_month="0" is_pick="0">26</button></li>
+						<li class="date-li" ><button class="workday-li" id="b33" onclick="add_date('b33')" is_month="0" is_pick="0">27</button></li>
+						<li class="date-li"><button class="weekdend-li" id="b34" onclick="add_date('b34')" is_month="0" is_pick="0">28</button></li>
+						<li class="date-li"><button class="weekdend-li" id="b35" onclick="add_date('b35')" is_month="0" is_pick="0">29</button></li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<div id="date6" class="date-list">
+				<div id="date-picker-div">
+					<ul  class="date-picker">
+						<li class="date-li"><button class="workday-li" id="b36" onclick="add_date('b36')" is_month="0" is_pick="0">30</button></li>
+						<li class="date-li"><button class="workday-li" id="b37" onclick="add_date('b37')" is_month="0" is_pick="0">31</button></li>
+						<li class="date-li"><button class="workday-li-another-month" id="b38" onclick="add_date('b38')" is_month="1" is_pick="0">1</button></li>
+						<li class="date-li"><button class="workday-li-another-month" id="b39" onclick="add_date('b39')" is_month="1" is_pick="0">2</button></li>
+						<li class="date-li" ><button class="workday-li-another-month" id="b40" onclick="add_date('b40')" is_month="1" is_pick="0">3</button></li>
+						<li class="date-li"><button class="workday-li-another-month" id="b41" onclick="add_date('b41')" is_month="1" is_pick="0">4</button></li>
+						<li class="date-li"><button class="workday-li-another-month" id="b42" onclick="add_date('b42')" is_month="1" is_pick="0">5</button></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<!--
+			月份选择
+		-->
+		<div id="month-div">
+			<div id="month-picker-div">
+				<ul  class="month-picker">
+						<li class="month-li">月份选择</li>
+						<li class="month-li" ><button class="month-li-onclick" is_pick=0 onclick="change_month(1)" id="m1">1</button></li>
+						<li class="month-li"><button class="month-li-noclick" is_pick=0 onclick="change_month(2)" id="m2">2</button></li>
+						<li class="month-li"><button class="month-li-noclick" is_pick=0 onclick="change_month(3)" id="m3">3</button></li>
+						<li class="month-li" ><button class="month-li-noclick" is_pick=0 onclick="change_month(4)" id="m4">4</button></li>
+						<li class="month-li"><button class="month-li-noclick" is_pick=0 onclick="change_month(5)" id="m5">5</button></li>
+						<li class="month-li"><button class="month-li-noclick" is_pick=0 onclick="change_month(6)" id="m6">6</button></li>
+						<li class="month-li" ><button class="month-li-noclick" is_pick=0 onclick="change_month(7)" id="m7">7</button></li>
+						<li class="month-li"><button class="month-li-noclick" is_pick=0 onclick="change_month(8)" id="m8">8</button></li>
+						<li class="month-li"><button class="month-li-noclick" is_pick=0 onclick="change_month(9)" id="m9">9</button></li>
+						<li class="month-li" ><button class="month-li-noclick" is_pick=0 onclick="change_month(10)" id="m10">10</button></li>
+						<li class="month-li"><button class="month-li-noclick" is_pick=0 onclick="change_month(11)" id="m11">11</button></li>
+						<li class="month-li"><button class="month-li-noclick" is_pick=0 onclick="change_month(12)" id="m12">12</button></li>
+					</ul>
+				</div>
+		</div>
+		<!--
+			提交菜单
+		-->
+		<div id="boot-div">
+			<div class="submit-button"><button>提交</button></div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	for (var i = 1; i <= 3; i++) {
+		$('#y'+i).text(now_year + i -1);
+	}
+	$('#y1').css('background-color','#C54D11');
+	$('#m' + now_month).css('background-color','#C54D11');
+</script>
+</html>
