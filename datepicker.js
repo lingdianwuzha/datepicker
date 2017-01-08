@@ -7,7 +7,7 @@
 	 		//page_error();
 			//console.log(paramer);
 	 	}
-	 	return paramer > 10 ? paramer : 0 + '' + paramer;
+	 	return paramer >= 10 ? paramer : 0 + '' + paramer;
 	 } 
 	/**
      * getMonthDays
@@ -194,7 +194,7 @@
 		var select_day = get_select_day(is_month,pick_day);
 		/*console.log(now_year);
 		console.log(now_month);
-		console.log(pick_day);*/
+		*/
 		// console.log(select_day);
 		if(is_pick == 0) {
 			//add this day to store
@@ -358,6 +358,7 @@
 		/*console.log(now_month);
 		console.log(now_year);*/
 		var need_change_select_day = get_store(now_month,now_year);
+		// console.log(pick_days);
 		// console.log(need_change_select_day);
 		if(need_change_select_day == [])
 		{
@@ -435,4 +436,23 @@
 		change_pick_year_button_style(i);
 		//console.log(new_now_year);
 		now_year = new_now_year;
+	}
+	/**
+	 * post data to server
+	 */
+	function post_data()
+	{
+		// console.log(pick_days);
+		// create ajax object
+		var variable = new XMLHttpRequest()
+		var url = 'http://localhost/get_post_data.php';
+		var pick_dates = 'p=' + pick_days.join(',');
+		url = url + '?' + pick_dates + '&rand=' + Math.random();
+		variable.open('GET',url,true);
+		variable.onreadystatechange=function(){
+			$('#test').text(variable.responseText);
+		}
+		variable.send(url);
+		console.log(url);
+		console.log(pick_dates);
 	}

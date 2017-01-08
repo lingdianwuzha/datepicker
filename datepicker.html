@@ -207,9 +207,11 @@
 			提交菜单
 		-->
 		<div id="boot-div">
-			<div class="submit-button"><button>提交</button></div>
+			<div class="submit-button"><button onclick="post_data()">提交</button></div>
 		</div>
 	</div>
+	<br><br><br><br>
+	<div id='test'>test div</div>
 </body>
 <script type="text/javascript">
 	for (var i = 1; i <= 3; i++) {
@@ -217,5 +219,8 @@
 	}
 	$('#y1').css('background-color','#C54D11');
 	$('#m' + now_month).css('background-color','#C54D11');
+	for (var i = 1; i <= 42; i++) {
+		$('#b' + i).attr('is_pick',0);
+	}
 </script>
 </html>
